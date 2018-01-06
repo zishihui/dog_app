@@ -16,7 +16,6 @@ export default {
   },
 
   [RECEIVE_MS](state,{msData}){
-    debugger
     state.seckill = msData
   }
 }

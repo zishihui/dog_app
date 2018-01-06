@@ -34,7 +34,6 @@ export default {
     const msResult = await requestMiaoSha()
     if(msResult.code == 0){  //每日疯抢请求返回数据
       const msData = msResult.data
-      console.log(msData)
       commit(RECEIVE_MS,{msData})
     }
   }
