@@ -6,6 +6,8 @@ import classification from '../page/classification/classification.vue'
 import homepage from '../page/homepage/homepage.vue'
 import mypet from '../page/mypet/mypet.vue'
 import shoppingcart from '../page/shoppingcart/shoppingcart.vue'
+import fenlei from '../page/fenlei/fenlei.vue'
+import pinpai from '../page/pinpai/pinpai.vue'
 
 //引入路由组件，会按需加载
 // const classification = () => import('../page/classification/classification.vue')
@@ -27,20 +29,36 @@ export default new VueRouter({
     },
     {
       path : '/homepage',
-      component : homepage,
-      meta: {keepAlive: true, isTop: true}
+      component : homepage//,
+      // meta: {keepAlive: true, isShow: true}
     },
     {
       path : '/classification',
-      component : classification
+      component : classification,
+      children : [
+        {
+          path : '',
+          redirect: 'fenlei'
+        },
+        {
+          path : 'fenlei',
+          component : fenlei
+        },
+        {
+          path : 'pinpai',
+          component : pinpai
+        }
+      ]
     },
     {
       path : '/mypet',
-      component : mypet
+      component : mypet//,
+      // meta: {keepAlive: true, isShow: true}
     },
     {
       path : '/shoppingcart',
-      component : shoppingcart
+      component : shoppingcart//,
+      // meta: { isShow: false}
     }
   ]
 })

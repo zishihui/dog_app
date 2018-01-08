@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="tab">
+  <div class="appWrap">
+    <div class="tab" v-show="isShow">
       <div class="tab-item" @click.stop="refreshIndex()">
         <router-link to="/homepage">
           <!--<img src="./common/img/bottom/page1.png" />-->
@@ -18,6 +18,7 @@
         </router-link>
 
       </div>
+
       <div class="tab-item" @click.stop="gotoAddress('/classification')">
         <router-link to="/classification">
           <!--<img src="./common/img/bottom/page2.png" />-->
@@ -33,13 +34,11 @@
         </svg>
         </span>
         </router-link>
-
-
       </div>
+
       <div class="tab-item" @click.stop="gotoAddress('/shoppingcart')">
         <router-link to="/shoppingcart">
           <!--<img src="./common/img/bottom/page3.png" />-->
-
           <span v-if="$route.path.indexOf('shoppingcart') == -1"> <!--不包括-->
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-icozhuanhuan"></use>
@@ -52,9 +51,8 @@
 
         </span>
         </router-link>
-
-
       </div>
+
       <div class="tab-item" @click.stop="gotoAddress('/mypet')">
         <router-link to="/mypet">
           <!--<img src="./common/img/bottom/page4.png" />-->
@@ -70,9 +68,8 @@
         </svg>
         </span>
         </router-link>
-
-
       </div>
+
     </div>
     <keep-alive>
       <router-view />
@@ -84,6 +81,12 @@
   import axios from 'axios'
   import homepage from './page/homepage/homepage.vue'
   export default {
+
+      data(){
+          return{
+              isShow : true
+          }
+      },
     components:{
       homepage
     },
@@ -99,6 +102,10 @@
       },
 
       gotoAddress(path){
+          //判断是否为购物车
+          if(this.$route.path.indexOf('/shoppingcart') != -1){
+            this.isShow = false
+          }
         this.$router.replace(path)
       }
     },
@@ -115,24 +122,24 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  .tab
-    position fixed
-    bottom 0px
-    left 0px
-    width 100%
-    height 50px
-    line-height 50px
-    z-index 12
-    background #fff
-    .tab-item
-      float left
-      width 25%
+    .tab
+      position fixed
+      bottom 0px
+      left 0px
+      width 100%
       height 50px
-      text-align center
-      font-size 14px
-      & img
-        width 45%
-        height 40px
+      line-height 50px
+      z-index 12
+      background #fff
+      .tab-item
+        float left
+        width 25%
+        height 50px
+        text-align center
+        font-size 14px
+        & img
+          width 45%
+          height 40px
   /*.active*/
   /*color: #f00*/
 </style>

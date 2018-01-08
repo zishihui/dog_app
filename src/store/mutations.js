@@ -1,6 +1,11 @@
-// import Vue from 'vue'
-
-import {RECEIVE_MENUS, RECEIVE_CAROUSEL, RECEIVE_ITEMS, RECEIVE_MS} from './mutation-types'
+import {RECEIVE_MENUS,
+  RECEIVE_CAROUSEL,
+  RECEIVE_ITEMS,
+  RECEIVE_MS,
+  RECEIVE_PINPAI,
+  RECEIVE_FLLEFT,
+  RECEIVE_WNTJ,
+  RECEIVE_GGZS} from './mutation-types'
 
 export default {
   [RECEIVE_MENUS](state,{menusData}){
@@ -17,5 +22,17 @@ export default {
 
   [RECEIVE_MS](state,{msData}){
     state.seckill = msData
+  },
+
+  [RECEIVE_PINPAI](state,{ppData}){
+    state.ppData = ppData
+  },
+
+  [RECEIVE_FLLEFT](state,{flLeftData}){
+    state.flLeftData = flLeftData
+  },
+
+  [RECEIVE_GGZS](state,{ggzsData}){
+    state.cateList = ggzsData
   }
 }

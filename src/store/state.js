@@ -2,5 +2,8 @@ export default {
   menus : [],
   items : [],
   carousel : [],
-  seckill : {}
+  seckill : {},
+  ppData : [],
+  flLeftData : [],
+  cateList : []
 }

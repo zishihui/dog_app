@@ -1,5 +1,6 @@
 <template>
   <div class="headerClass">
+    <!--下载信息头部-->
     <div class="overflow xiazaiApp" v-show="isShow">
       <div class="overflow rela">
         <span class="clsoebtn" @click="toggleShow($event)">
@@ -62,7 +63,56 @@
                 </div>
               </div>
             </div>
+
           </div>
+        </div>
+      </div>
+
+      <!--切站点小狗-->
+      <div class="switchtype">
+        <!--小狗-->
+        <div class="go-dog" @click="show_pop"></div>
+        <!--遮罩层-->
+        <div class="changepop" ref="pop" > <!--v-show="isHide"-->
+          <div class="cartc-box">
+            <div class="main">
+              <p class="dog_p">
+                {{msg[1].en_name}}
+                <b class="b-line">▁</b>
+              </p>
+              <p class="honey_p">亲爱的小主</p>
+              <p class="in_p">
+                您即将进入<span :style="{color:msg[1].color}">{{msg[1].ch_name}}</span>
+              </p>
+              <ul class="change-ul">
+                <li type="dog" class="dot_li" @click="changeL">
+                  <img :src="msg[0].logo">
+                  <div class="pet1name">
+                    {{msg[0].ch_name}}
+                  </div>
+                </li>
+                <li type="cat" class="cat_li" >
+                  <img :src="msg[1].logo">
+                  <div class="pet2name">
+                    {{msg[1].ch_name}}
+                  </div>
+                  <b class="current-line">▁</b>
+                  <a href="javascript:;" :style="{background:msg[1].color}" class="once-into" @click="ljjrFun">
+                    立即进入
+                  </a>
+                </li>
+                <li type="fish" class="fish_li" @click="changeR">
+                  <img :src="msg[2].logo" >
+                  <div class="pet3name">
+                    {{msg[2].ch_name}}
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <a href="javascript:;" class="cartc-close" @click="show_pop">
+            <img src="../../common/img/header/close2.png">
+          </a>
         </div>
       </div>
     </div>
@@ -79,12 +129,31 @@
   export default{
     data () {
       return {
-        isShow : true
-//        navName : ['首页','服饰城','狗狗主粮','医疗保健','零食玩具','日用外出','美容香波']
+        isShow : true,
+        isHide : false,
+        msg : [
+          {
+            en_name : 'DOG',
+            ch_name : '狗狗站',
+            color : '#4e9a36',
+            logo : require('../../common/img/header/change-dog.png')
+          },
+          {
+            en_name : 'CAT',
+            ch_name : '猫猫站',
+            color : '#e74186',
+            logo : require('../../common/img/header/change-cat1.png')
+          },
+          {
+            en_name : 'FISH',
+            ch_name : '水族站',
+            color : '#039ddf',
+            logo : require('../../common/img/header/change-fish.png')
+          },
+        ]
+
       }
     },
-
-//    props : ['topDom'],
 
     computed : {
       //获取vuex中管理的menu数据
@@ -96,11 +165,49 @@
     },
 
     methods : {
+      //头部下载显示和隐藏
       toggleShow(event){
         this.isShow = !this.isShow
 
         //发布消息
         PubSub.publish('hideTop', event.target)
+      },
+
+      //dog切换
+      show_pop(){
+          this.isHide = !this.isHide
+
+          if(this.isHide){
+            this.$refs.pop.style.transform = 'scale(1,1)'
+            this.$refs.pop.style.opacity = '1'
+          } else {
+            this.$refs.pop.style.transform = 'scale(0,0)'
+            this.$refs.pop.style.opacity = '0'
+          }
+
+      },
+
+      //左侧切换
+      changeL(){
+        let msg1 = this.msg[0]
+        let msg2 = this.msg[1]
+
+        this.msg.splice(0,1,msg2)
+        this.msg.splice(1,1,msg1)
+      },
+
+      //右侧切换
+      changeR(){
+        let msg3 = this.msg[2]
+        let msg2 = this.msg[1]
+
+        this.msg.splice(1,1,msg3)
+        this.msg.splice(2,1,msg2)
+      },
+
+      //立即进入
+      ljjrFun(){
+        window.location = '/'
       }
     }
   }
@@ -266,4 +373,146 @@
                     color: #666
 
 
+      .switchtype
+        .go-dog
+          position fixed
+          right: -1px
+          bottom 15%
+          background url("../../common/img/header/gocat.png") no-repeat
+          background-size 80px auto
+          width: 41px
+          height: 46px
+          animation dog 1s steps(2) infinite
+        .changepop
+          height:100%
+          width 100%
+          position fixed
+          top:0
+          left:0
+          z-index 104
+          background-color #fff
+          opacity 0
+          transition all .5s linear
+          transform scale(0,0)
+          .cartc-box
+            width:100%
+            top: 107px
+            left 0px
+            position fixed
+            z-index 102
+            border-radius 5px
+            .main
+              max-width 640px
+              margin auto
+              .dog_p
+                text-align center
+                color: #999
+                font-size: 16px
+                position relative
+                height 25px
+                .b-line
+                  position: absolute;
+                  left 0px
+                  bottom -4px
+                  width:100%
+                  color #000
+                  font-size: 12px
+                  font-weight 400
+              .honey_p
+                font-size 20px
+                text-align center
+                color #666
+                margin-top 20px
+              .in_p
+                font-size 20px
+                color #333
+                text-align center
+                margin-top 10px
+              .change-ul
+                text-align center
+                margin-top 35px
+                min-width 305px
+                padding-left 10%
+                height 260px
+                overflow hidden
+                .dot_li
+                  width:25%
+                  float left
+                  margin-top 25%
+                  text-align center
+                  & img
+                    max-width:70%
+                  .pet1name
+                    margin-top 5px
+                    font-size: 12px
+                    color: #999
+                .cat_li
+                  width:40%
+                  float left
+                  margin-top 14%
+                  text-align center
+                  position relative
+                  & img
+                    max-width 80%
+                  .pet2name
+                    margin-top 5px
+                    text-align center
+                  .current-line
+                    font-weight 400
+                    position absolute
+                    top: -50px
+                    left: 0px
+                    text-align center
+                    width 100%
+                    font-size 12px
+                    color #000
+                  .once-into
+                    display inline-block
+                    margin-top 30px
+                    color #eee
+                    border-radius 30px
+                    width:100px
+                    font-size 12px
+                    padding 3px 15px
+                    text-align center
+                    cursor pointer
+                .fish_li
+                  width 25%
+                  float left
+                  text-align center
+                  margin-top 25%
+                  & img
+                    max-width 70%
+                  .pet3name
+                    margin-top 5px
+                    color: #999
+                    font-size 12px
+          .cartc-close
+            display block
+            width 100%
+            height 40px
+            line-height 50px
+            border-top 1px solid #e7e7e7
+            position fixed
+            bottom 20px
+            left 0px
+            z-index 103
+            text-align center
+            & img
+              width: 23px
+
+
+  /*display list-item*/
+
+  /*transition all .4s linear 0s*/
+
+
+
+  @keyframes dog
+    from {
+      background-position 0% 0%
+    }
+    to {
+      background-position 210% 0%
+    }
 </style>
